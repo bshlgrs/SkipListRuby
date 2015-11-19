@@ -1,7 +1,11 @@
 class SkipList
   def initialize(n)
-    levels = []*n
+    @levels = []*n
+    @n = n
   end
+
+  # levels are from base upwards
+  # Each item in non 0 levels is [value, (links between it an previous one for each level)]
 
   def makeFromList(list)
     result = SkipList.new()
@@ -18,5 +22,8 @@ class SkipList
   end
 
   def delete(item)
+  end
+
+  def atIndex(idx)
   end
 end
