@@ -1,5 +1,6 @@
 class SkipList
-  def initialize()
+  def initialize(n)
+    levels = []*n
   end
 
   def makeFromList(list)
@@ -8,5 +9,14 @@ class SkipList
       result.insert(item)
     end
     result
+  end
+
+  def insert(item)
+  end
+
+  def include?(item)
+  end
+
+  def delete(item)
   end
 end
