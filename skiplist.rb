@@ -14,12 +14,15 @@ class SkipList
   end
 
   def include?(item)
+    @firstNode.include?(item)
   end
 
   def insert(item)
+    @firstNode.insert(item)
   end
 
   def delete(item)
+    @firstNode.delete(item)
   end
   
 end
