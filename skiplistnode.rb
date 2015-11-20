@@ -4,6 +4,7 @@ class SkipListNode
     @value = value
     @downNode = downNode
     @rightNode = rightNode
+    @random = Random.new
   end
 
   def include?(item)
@@ -19,15 +20,16 @@ class SkipListNode
 
   def insert(item)
     return @rightNode.insert(item) if value < item && @rightNode && @rightNode.value <= item
-
     if @downNode
-      # insert in down node
-      # if probability, insert here also, return probabilty
-      # else, return 0
-    else
-      # insert here
-      # return [probability, newNode]
+      [insertHere, newNode] = @downNode.insert(item)
+      return [@random.rand(1.0) > 0.5, placeNext(item, newNode)] if insertHere
+      return [false, nil]
     end
+    [@random.rand(1.0) > 0.5, placeNext(item, nil)]
+  end
+
+  # returns node
+  def placeNext(item, downNodeLink)
   end
 
   def delete(item)
