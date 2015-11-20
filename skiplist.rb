@@ -42,10 +42,11 @@ test = SkipList.new()
 [1,2,3,4,5,6,7,8,9].each do |item|
   test.insert(item)
 end
-p(test.toLists())
 
-puts "--------------------"
+[1,2,3,4,5,6,7,8,9].each do |item|
+  puts "#{item} #{test.include?(item)}"
+end
 
-test.delete(8)
-p(test.toLists())
-# 1, 2, 3
+[0,-1,10,12,4.5].each do |item|
+  puts "#{item} #{!test.include?(item)}"
+end

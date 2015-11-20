@@ -11,12 +11,9 @@ class SkipListNode
 
   def include?(item)
     return true if item == @value
-    return false if item < @value
-    return false if @rightNode.nil?
-    if @rightNode.value > item
-      return false if @downNode.nil
-      return @downNode.include?(item)
-    end
+    return false if @value && item < @value
+    return false if @value.nil? && @rightNode.nil?
+    return @downNode && @downNode.include?(item) if @rightNode.nil? || @rightNode.value > item
     @rightNode.include?(item)
   end
 
