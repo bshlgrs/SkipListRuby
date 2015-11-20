@@ -2,7 +2,7 @@ require "./skiplistnode.rb"
 
 class SkipList
   def initialize()
-    @firstNode = SkipListNode.new(nil, nil, nil)
+    @firstNode = SkipListNode.new(nil, nil, nil, nil)
   end
 
   def makeFromList(list)

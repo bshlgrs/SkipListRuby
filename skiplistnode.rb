@@ -1,9 +1,11 @@
 class SkipListNode
   attr_reader :value
-  def initialize(value, downNode, rightNode)
+  attr_accessor :rightNode, :leftNode
+  def initialize(value, downNode, rightNode, leftNode)
     @value = value
     @downNode = downNode
     @rightNode = rightNode
+    @leftNode = leftNode
     @random = Random.new
   end
 
@@ -29,7 +31,7 @@ class SkipListNode
   end
 
   def placeNext(item, downNodeLink)
-    @rightNode = SkipListNode.new(item, downNodeLink, @rightNode)
+    @rightNode = SkipListNode.new(item, downNodeLink, @rightNode, self)
   end
 
   def delete(item)
@@ -42,6 +44,9 @@ class SkipListNode
 
 # removes this, and all children of this
   def removeThis()
+    @leftNode.rightNode = @rightNode
+    @rightNode.leftNode = @leftNode
+    @downNode.removeThis() if @downNode
   end
   
 end
