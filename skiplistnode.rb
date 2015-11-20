@@ -18,12 +18,15 @@ class SkipListNode
   end
 
   def insert(item)
-    @rightNode.insert(item) if value < item && @rightNode && @rightNode.value <= item
+    return @rightNode.insert(item) if value < item && @rightNode && @rightNode.value <= item
 
     if @downNode
       # insert in down node
+      # if probability, insert here also, return probabilty
+      # else, return 0
     else
       # insert here
+      # return [probability, newNode]
     end
   end
 
