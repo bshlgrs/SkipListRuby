@@ -18,6 +18,13 @@ class SkipListNode
   end
 
   def insert(item)
+    @rightNode.insert(item) if value < item && @rightNode && @rightNode.value <= item
+
+    if @downNode
+      # insert in down node
+    else
+      # insert here
+    end
   end
 
   def delete(item)
