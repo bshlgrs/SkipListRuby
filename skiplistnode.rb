@@ -31,7 +31,8 @@ class SkipListNode
   end
 
   def placeNext(item, downNodeLink)
-    @rightNode = SkipListNode.new(item, downNodeLink, @rightNode, self)
+    @rightNode.leftNode = SkipListNode.new(item, downNodeLink, @rightNode, self)
+    @rightNode = @rightNode.leftNode
   end
 
   def delete(item)
@@ -39,10 +40,10 @@ class SkipListNode
     return false if @rightNode.nil?
     return @downNode.delete(item) if @rightNode.value > item && @downNode
     return @rightNode.delete(item)
-    false
+    falseT
   end
 
-# removes this, and all children of this
+# removes this, and all downNodes of this
   def removeThis()
     @leftNode.rightNode = @rightNode
     @rightNode.leftNode = @leftNode
