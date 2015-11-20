@@ -9,7 +9,7 @@ class SkipListNode
 
   def include?(item)
     return true if item == @value
-    return false if item > @value
+    return false if item < @value
     return false if @rightNode.nil?
     if @rightNode.value > item
       return false if @downNode.nil
@@ -33,6 +33,15 @@ class SkipListNode
   end
 
   def delete(item)
+    return removeThis() if item == @value
+    return false if @rightNode.nil?
+    return @downNode.delete(item) if @rightNode.value > item && @downNode
+    return @rightNode.delete(item)
+    false
+  end
+
+# removes this, and all children of this
+  def removeThis()
   end
   
 end
