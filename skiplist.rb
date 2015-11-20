@@ -38,15 +38,15 @@ class SkipList
   end
 end
 
-test = SkipList.new()
-[1,2,3,4,5,6,7,8,9].each do |item|
-  test.insert(item)
-end
+# test = SkipList.new()
+# [1,2,3,4,5,6,7,8,9].each do |item|
+#   test.insert(item)
+# end
 
-[1,2,3,4,5,6,7,8,9].each do |item|
-  puts "#{item} #{test.include?(item)}"
-end
+# [1,2,3,4,5,6,7,8,9].each do |item|
+#   puts "#{item} #{test.include?(item)}"
+# end
 
-[0,-1,10,12,4.5].each do |item|
-  puts "#{item} #{!test.include?(item)}"
-end
+# [0,-1,10,12,4.5].each do |item|
+#   puts "#{item} #{!test.include?(item)}"
+# end
