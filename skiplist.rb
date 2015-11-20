@@ -38,18 +38,14 @@ class SkipList
   end
 end
 
-
-  # def makeFromList(list)
-  #   result = SkipList.new()
-  #   list.each.do |item|
-  #     result.insert(item)
-  #   end
-  #   result
-  # end
-
-
 test = SkipList.new()
-[1,3,5,12,9,40,12,18,3,4,2,50,108,89,15,17,16].each do |item|
+[1,2,3,4,5,6,7,8,9].each do |item|
   test.insert(item)
 end
 p(test.toLists())
+
+puts "--------------------"
+
+test.delete(8)
+p(test.toLists())
+# 1, 2, 3

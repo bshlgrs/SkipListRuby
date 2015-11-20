@@ -38,10 +38,11 @@ class SkipListNode
 
   def delete(item)
     return removeThis() if item == @value
-    return false if @rightNode.nil?
-    return @downNode.delete(item) if @rightNode.value > item && @downNode
-    return @rightNode.delete(item)
-    falseT
+    return false if @value && item < @value
+    return false if @value.nil? && @rightNode.nil?
+    return @rightNode.delete(item) if @rightNode && @rightNode.value <= item
+    return @downNode.delete(item) if @downNode
+    false
   end
 
 # removes this, and all downNodes of this
