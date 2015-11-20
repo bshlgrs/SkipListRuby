@@ -28,8 +28,8 @@ class SkipListNode
     [@random.rand(1.0) > 0.5, placeNext(item, nil)]
   end
 
-  # returns node
   def placeNext(item, downNodeLink)
+    @rightNode = SkipListNode.new(item, downNodeLink, @rightNode)
   end
 
   def delete(item)
