@@ -1,6 +1,6 @@
 class SkipListNode
   attr_reader :value
-  attr_accessor :rightNode, :leftNode
+  attr_accessor :rightNode, :leftNode, :downNode
   def initialize(value, downNode, rightNode, leftNode)
     @value = value
     @downNode = downNode
@@ -21,9 +21,9 @@ class SkipListNode
   end
 
   def insert(item)
-    return @rightNode.insert(item) if value < item && @rightNode && @rightNode.value <= item
+    return @rightNode.insert(item) if (value.nil? || value < item) && @rightNode && @rightNode.value <= item
     if @downNode
-      [insertHere, newNode] = @downNode.insert(item)
+      insertHere, newNode = @downNode.insert(item)
       return [@random.rand(1.0) > 0.5, placeNext(item, newNode)] if insertHere
       return [false, nil]
     end
@@ -31,8 +31,9 @@ class SkipListNode
   end
 
   def placeNext(item, downNodeLink)
-    @rightNode.leftNode = SkipListNode.new(item, downNodeLink, @rightNode, self)
-    @rightNode = @rightNode.leftNode
+    newNode = SkipListNode.new(item, downNodeLink, @rightNode, self)
+    @rightNode.leftNode = newNode if @rightNode
+    @rightNode = newNode
   end
 
   def delete(item)
