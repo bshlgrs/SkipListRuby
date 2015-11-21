@@ -74,6 +74,7 @@ class SkipList
   end
 
   def each()
+    to_a.each()
   end
 
 end
