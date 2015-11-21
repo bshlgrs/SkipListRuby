@@ -19,6 +19,11 @@ class SkipList
     end
   end
 
+  def [](idx)
+    return nil if idx < 0
+    @firstNode.atIndex(idx+1)
+  end
+
   def delete(item)
     @firstNode.delete(item)
   end

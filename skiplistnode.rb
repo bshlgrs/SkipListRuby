@@ -65,5 +65,18 @@ class SkipListNode
     @rightNode.leftNode = @leftNode
     @downNode.removeThis() if @downNode
   end
+
+  def atIndex(idx)
+    return @value if idx == 0
+    return @rightNode.value if idx == @elems_to_next
+    return @rightNode.atIndex(idx) if idx < @elems_to_next
+    @rightNode.atIndex(idx - @elems_to_next)
+  end
   
 end
+
+
+
+
+
+
