@@ -14,6 +14,8 @@ class SkipList
     if insertHere
       @firstNode = SkipListNode.new(nil, @firstNode, nil, nil)
       @firstNode.placeNext(item, newDownNode)
+      newDownNode.set_elems_to_next
+      @firstNode.set_elems_to_next
     end
   end
 
