@@ -38,6 +38,16 @@ class SkipListNode
   end
 
   def set_elems_to_next()
+    @elems_to_next = 1 if @downNode.nil? 
+    finishNode = nil
+    finishNode = @rightNode.downNode if @rightNode
+    currentNode = @downNode
+    sum = 0
+    while currentNode != finishNode
+      sum += currentNode.elems_to_next
+      currentNode = currentNode.rightNode
+    end
+    @elems_to_next = sum
   end
 
   def delete(item)
