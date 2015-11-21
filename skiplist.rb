@@ -36,12 +36,43 @@ class SkipList
     end
     result
   end
+
+  def to_a()
+    result = []
+    currentNode = @firstNode
+    while currentNode.downNode
+      currentNode = currentNode.downNode
+    end
+    while currentNode
+      result << currentNode.value
+      currentNode = currentNode.rightNode
+    end
+    result
+  end
+
+  def first()
+  end
+
+  def last()
+  end
+
+  def length()
+  end
+
+  def each()
+  end
+
 end
 
-# test = SkipList.new()
-# [1,2,3,4,5,6,7,8,9].each do |item|
-#   test.insert(item)
-# end
+def fromEnum(enum)
+  result = SkipList.new()
+  enum.each do |elem|
+    result.insert(elem)
+  end
+  result
+end
+
+# test = fromEnum([1,2,3,4,5,6,7,8,9])
 
 # [1,2,3,4,5,6,7,8,9].each do |item|
 #   puts "#{item} #{test.include?(item)}"
