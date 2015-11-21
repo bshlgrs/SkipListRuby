@@ -1,11 +1,12 @@
 class SkipListNode
   attr_reader :value
   attr_accessor :rightNode, :leftNode, :downNode
-  def initialize(value, downNode, rightNode, leftNode)
+  def initialize(value, downNode, rightNode, leftNode, elems_to_next)
     @value = value
     @downNode = downNode
     @rightNode = rightNode
     @leftNode = leftNode
+    @elems_to_next = elems_to_next
     @random = Random.new
   end
 
