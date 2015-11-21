@@ -51,9 +51,23 @@ class SkipList
   end
 
   def first()
+    currentNode = @firstNode
+    while currentNode.downNode
+      currentNode = currentNode.downNode
+    end
+    return currentNode.rightNode.value if currentNode.rightNode
+    nil
   end
 
   def last()
+    currentNode = @firstNode
+    while currentNode.rightNode || currentNode.downNode
+      while currentNode.rightNode
+        currentNode = currentNode.rightNode
+      end
+      currentNode = currentNode.downNode if currentNode.downNode
+    end
+    currentNode.value
   end
 
   def length()
@@ -72,7 +86,8 @@ def fromEnum(enum)
   result
 end
 
-# test = fromEnum([1,2,3,4,5,6,7,8,9])
+test = fromEnum([1,2,3,4,5,6,7,8,9])
+puts test.first()
 
 # [1,2,3,4,5,6,7,8,9].each do |item|
 #   puts "#{item} #{test.include?(item)}"
