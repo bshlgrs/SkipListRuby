@@ -44,6 +44,22 @@ class SkipList
     result
   end
 
+  def toListsElems()
+    result = []
+    leftMostNode = @firstNode
+    while leftMostNode
+      list = []
+      currentNode = leftMostNode
+      while currentNode
+        list << currentNode.elems_to_next
+        currentNode = currentNode.rightNode
+      end
+      result << list
+      leftMostNode = leftMostNode.downNode
+    end
+    result
+  end
+
   def to_a()
     result = []
     currentNode = @firstNode
@@ -95,7 +111,12 @@ def fromEnum(enum)
 end
 
 test = fromEnum([1,2,3,4,5,6,7,8,9])
-puts test.first()
+p(test.toLists)
+# puts "----------------"
+# p(test.toListsElems)
+(0..8).each do |idx|
+  puts test[idx]
+end
 
 # [1,2,3,4,5,6,7,8,9].each do |item|
 #   puts "#{item} #{test.include?(item)}"

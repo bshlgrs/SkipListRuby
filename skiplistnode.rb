@@ -1,6 +1,6 @@
 class SkipListNode
   attr_reader :value
-  attr_accessor :rightNode, :leftNode, :downNode
+  attr_accessor :rightNode, :leftNode, :downNode, :elems_to_next
   def initialize(value, downNode, rightNode, leftNode)
     @value = value
     @downNode = downNode
@@ -22,9 +22,15 @@ class SkipListNode
     return @rightNode.insert(item) if (value.nil? || value < item) && @rightNode && @rightNode.value <= item
     if @downNode
       insertHere, newNode = @downNode.insert(item)
-      return [@random.rand(1.0) > 0.5, placeNext(item, newNode)] if insertHere
+      if insertHere
+        nextNode = placeNext(item, newNode)
+        nextNode.leftNode.set_elems_to_next
+        nextNode.set_elems_to_next
+        return [@random.rand(1.0) > 0.5, nextNode]
+      end
       return [false, nil]
     end
+    set_elems_to_next()
     [@random.rand(1.0) > 0.5, placeNext(item, nil)]
   end
 
@@ -32,13 +38,10 @@ class SkipListNode
     newNode = SkipListNode.new(item, downNodeLink, @rightNode, self)
     @rightNode.leftNode = newNode if @rightNode
     @rightNode = newNode
-    @rightNode.set_elems_to_next
-    newNode.set_elems_to_next
-    @rightNode
   end
 
   def set_elems_to_next()
-    @elems_to_next = 1 if @downNode.nil? 
+    return @elems_to_next = 1 if @downNode.nil?
     finishNode = nil
     finishNode = @rightNode.downNode if @rightNode
     currentNode = @downNode
@@ -68,9 +71,10 @@ class SkipListNode
 
   def atIndex(idx)
     return @value if idx == 0
-    return @rightNode.value if idx == @elems_to_next
-    return @rightNode.atIndex(idx) if idx < @elems_to_next
-    @rightNode.atIndex(idx - @elems_to_next)
+    return @rightNode.value if idx == @elems_to_next && @rightNode
+    return @downNode.atIndex(idx) if (idx < @elems_to_next || @rightNode.nil?) && @downNode
+    return @rightNode.atIndex(idx - @elems_to_next) if @rightNode
+    nil
   end
   
 end
