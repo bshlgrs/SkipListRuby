@@ -2,95 +2,95 @@ require "./skiplistnode.rb"
 
 class SkipList
   def initialize()
-    @firstNode = SkipListNode.new(nil, nil, nil, nil)
+    @first_node = SkipListNode.new(nil, nil, nil, nil)
   end
 
   def include?(item)
-    @firstNode.include?(item)
+    @first_node.include?(item)
   end
 
   def insert(item)
-    insertHere, newDownNode = @firstNode.insert(item)
-    if insertHere
-      @firstNode = SkipListNode.new(nil, @firstNode, nil, nil)
-      @firstNode.placeNext(item, newDownNode)
-      newDownNode.set_elems_to_next
-      @firstNode.set_elems_to_next
+    insert_here, new_down_node = @first_node.insert(item)
+    if insert_here
+      @first_node = SkipListNode.new(nil, @first_node, nil, nil)
+      @first_node.place_next(item, new_down_node)
+      new_down_node.set_elems_to_next
+      @first_node.set_elems_to_next
     end
   end
 
   def [](idx)
     return nil if idx < 0
-    @firstNode.atIndex(idx+1)
+    @first_node.at_index(idx+1)
   end
 
   def delete(item)
-    @firstNode.delete(item)
+    @first_node.delete(item)
   end
 
-  def toLists()
+  def to_lists()
     result = []
-    leftMostNode = @firstNode
-    while leftMostNode
+    left_most_node = @first_node
+    while left_most_node
       list = []
-      currentNode = leftMostNode
-      while currentNode
-        list << currentNode.value
-        currentNode = currentNode.rightNode
+      current_node = left_most_node
+      while current_node
+        list << current_node.value
+        current_node = current_node.right_node
       end
       result << list
-      leftMostNode = leftMostNode.downNode
+      left_most_node = left_most_node.down_node
     end
     result
   end
 
-  def toListsElems()
-    result = []
-    leftMostNode = @firstNode
-    while leftMostNode
-      list = []
-      currentNode = leftMostNode
-      while currentNode
-        list << currentNode.elems_to_next
-        currentNode = currentNode.rightNode
-      end
-      result << list
-      leftMostNode = leftMostNode.downNode
-    end
-    result
-  end
+  # def to_lists_elems()
+  #   result = []
+  #   left_most_node = @first_node
+  #   while left_most_node
+  #     list = []
+  #     current_node = left_most_node
+  #     while current_node
+  #       list << current_node.elems_to_next
+  #       current_node = current_node.right_node
+  #     end
+  #     result << list
+  #     left_most_node = left_most_node.down_node
+  #   end
+  #   result
+  # end
 
   def to_a()
     result = []
-    currentNode = @firstNode
-    while currentNode.downNode
-      currentNode = currentNode.downNode
+    current_node = @first_node
+    while current_node.down_node
+      current_node = current_node.down_node
     end
-    while currentNode
-      result << currentNode.value
-      currentNode = currentNode.rightNode
+    while current_node
+      result << current_node.value
+      current_node = current_node.right_node
     end
     result
   end
 
   def first()
-    currentNode = @firstNode
-    while currentNode.downNode
-      currentNode = currentNode.downNode
+    current_node = @first_node
+    while current_node.down_node
+      current_node = current_node.down_node
     end
-    return currentNode.rightNode.value if currentNode.rightNode
+    return current_node.right_node.value if current_node.right_node
     nil
   end
 
   def last()
-    currentNode = @firstNode
-    while currentNode.rightNode || currentNode.downNode
-      while currentNode.rightNode
-        currentNode = currentNode.rightNode
+    current_node = @first_node
+    while current_node.right_node || current_node.down_node
+      while current_node.right_node
+        current_node = current_node.right_node
       end
-      currentNode = currentNode.downNode if currentNode.downNode
+      current_node = current_node.down_node if current_node.down_node
     end
-    currentNode.value
+    current_node.value
   end
 
   def length()
@@ -102,7 +102,7 @@ class SkipList
 
 end
 
-def fromEnum(enum)
+def from_enum(enum)
   result = SkipList.new()
   enum.each do |elem|
     result.insert(elem)
@@ -110,10 +110,10 @@ def fromEnum(enum)
   result
 end
 
-test = fromEnum([1,2,3,4,5,6,7,8,9])
-p(test.toLists)
+test = from_enum([1,2,3,4,5,6,7,8,9])
+p(test.to_lists)
 # puts "----------------"
-# p(test.toListsElems)
+# p(test.to_lists_elems)
 (0..8).each do |idx|
   puts test[idx]
 end
