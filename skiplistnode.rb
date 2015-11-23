@@ -1,12 +1,17 @@
 class SkipListNode
   attr_reader :value
-  attr_accessor :right_node, :left_node, :down_node, :elems_to_next
-  def initialize(value, down_node, right_node, left_node)
+  attr_accessor :right_node, :left_node, :down_node, :elems_to_next, :elems_set, :up_node
+  def initialize(value, down_node, up_node, right_node, left_node)
     @value = value
-    @down_node= down_node
+    @down_node = down_node
+    if @down_node
+      @down_node.up_node = self
+    end
+    @up_node = up_node
     @right_node= right_node
     @left_node = left_node
     @elems_to_next = 0
+    @elems_set = false
     @random = Random.new
   end
 
@@ -19,38 +24,45 @@ class SkipListNode
   end
 
   def insert(item)
-    return @right_node.insert(item) if (value.nil? || value < item) && @right_node&& @right_node.value <= item
+    return @right_node.insert(item) if (value.nil? || value < item) && @right_node && @right_node.value <= item
     if @down_node
-      insertHere, new_node = @down_node.insert(item)
-      if insertHere
-        nextNode = place_next(item, new_node)
-        nextNode.left_node.set_elems_to_next
-        nextNode.set_elems_to_next
-        return [@random.rand(1.0) > 0.5, nextNode]
+      insert_here, new_node = @down_node.insert(item)
+      if insert_here
+        return [@random.rand(1.0) > 0.5, place_next(item, new_node)]
       end
       return [false, nil]
     end
-    set_elems_to_next()
     [@random.rand(1.0) > 0.5, place_next(item, nil)]
   end
 
   def place_next(item, down_node_link)
-    new_node = SkipListNode.new(item, down_node_link, @right_node, self)
+    new_node = SkipListNode.new(item, down_node_link, nil, @right_node, self)
     @right_node.left_node = new_node if @right_node
-    @right_node= new_node
+    @right_node = new_node
+
+    @right_node.set_elems_to_next()
+    @right_node.up_node.set_elems_to_next if @right_node.up_node
+
+    set_elems_to_next()
+    @up_node.set_elems_to_next if @up_node
+
+    @right_node
   end
 
   def set_elems_to_next()
-    return @elems_to_next = 1 if @down_node.nil?
+    return @elems_to_next = 0 if @down_node.nil? && !@right_node
+    return @elems_to_next = 1if @down_node.nil? 
+
     finish_node = nil
-    finish_node = @right_node.down_nodeif @right_node
+    finish_node = @right_node.down_node if @right_node
     current_node = @down_node
     sum = 0
-    while current_node != finish_node
+    while (current_node != finish_node) 
       sum += current_node.elems_to_next
       current_node = current_node.right_node
     end
     @elems_to_next = sum
+    return @elems_to_next
   end
 
   def delete(item)
