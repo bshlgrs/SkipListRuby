@@ -40,18 +40,20 @@ class SkipListNode
     @right_node.left_node = new_node if @right_node
     @right_node = new_node
 
-    @right_node.set_elems_to_next()
-    @right_node.up_node.set_elems_to_next if @right_node.up_node
-
-    set_elems_to_next()
-    @up_node.set_elems_to_next if @up_node
+    set_elems_to_next_upward()
+    @right_node.set_elems_to_next_upward()
 
     @right_node
   end
 
+  def set_elems_to_next_upward()
+    set_elems_to_next()
+    @up_node.set_elems_to_next_upward() if @up_node
+  end
+
   def set_elems_to_next()
     return @elems_to_next = 0 if @down_node.nil? && !@right_node
-    return @elems_to_next = 1if @down_node.nil? 
+    return @elems_to_next = 1 if @down_node.nil? 
 
     finish_node = nil
     finish_node = @right_node.down_node if @right_node
