@@ -51,7 +51,7 @@ class SkipListNode
     while current_node && current_node.up_node.nil?
       current_node = current_node.left_node
     end
-    current_node.set_elems_to_next_upward() if current_node
+    current_node.up_node.set_elems_to_next_upward_and_left() if current_node
   end
 
   def set_elems_to_next_upward()
