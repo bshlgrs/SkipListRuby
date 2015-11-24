@@ -22,6 +22,11 @@ class SkipList
     @first_node.at_index(idx+1)
   end
 
+  def at_index(idx)
+    return nil if idx < 0
+    @first_node.at_index(idx+1)
+  end
+
   def delete(item)
     @first_node.delete(item)
   end
@@ -102,6 +107,13 @@ class SkipList
     length
   end
 
+  def median()
+    return at_index(length()/2) if length()%2 == 1
+    less = (at_index(length()/2 ))
+    more = (at_index(length()/2 + 1))
+    (less + more)/2
+  end
+
   def each()
     to_a.each()
   end
@@ -132,11 +144,9 @@ def from_enum(enum)
   result
 end
 
-test = from_enum([1,2,3,4,5,6,7,8,9])
+test = from_enum([1,2,3,4,5,6,7,8,9,10,20,20,20])
 p(test.to_lists)
-puts "----------------"
-p(test.to_lists_elems)
-puts(test.length())
+puts(test.median())
 
 
 # (0..8).each do |idx|
