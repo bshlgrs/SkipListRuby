@@ -74,11 +74,7 @@ class SkipList
   end
 
   def to_a()
-    result = []
-    each do |elem|
-      result << elem
-    end
-    result
+    [].tap { |result| each { |elem| result << elem } }
   end
 
   def first()
