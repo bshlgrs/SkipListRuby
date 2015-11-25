@@ -1,8 +1,17 @@
 require "./skiplistnode.rb"
 
 class SkipList
-  def initialize()
+  def initialize(ordering=nil)
     @first_node = SkipListNode.new(nil, nil, nil, nil, nil)
+    @ordering = ordering || ->(x) { x }
+  end
+
+  def self.from_enum(enum)
+    result = SkipList.new()
+    enum.each do |elem|
+      result.insert(elem)
+    end
+    result
   end
 
   def include?(item)
@@ -66,13 +75,8 @@ class SkipList
 
   def to_a()
     result = []
-    current_node = @first_node
-    while current_node.down_node
-      current_node = current_node.down_node
-    end
-    while current_node
-      result << current_node.value
-      current_node = current_node.right_node
+    each do |elem|
+      result << elem
     end
     result
   end
@@ -114,8 +118,15 @@ class SkipList
     (less + more)/2
   end
 
-  def each()
-    to_a.each()
+  def each
+    current_node = @first_node
+    while current_node.down_node
+      current_node = current_node.down_node
+    end
+    while current_node
+      yield(current_node.value)
+      current_node = current_node.right_node
+    end
   end
 
   def set_elems_on_all()
@@ -133,18 +144,11 @@ class SkipList
       end
     end
   end
-
 end
 
-def from_enum(enum)
-  result = SkipList.new()
-  enum.each do |elem|
-    result.insert(elem)
-  end
-  result
-end
 
-test = from_enum([1,2,3,4,5,6,7,8,9,10,20,20,20])
+
+test = SkipList.from_enum([1,2,3,4,5,6,7,8,9,10,20,20,20])
 p(test.to_lists)
 puts(test.median())
 
